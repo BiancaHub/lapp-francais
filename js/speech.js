@@ -39,13 +39,15 @@ var SpeechInput = {
         };
     },
 
-    start: function(callback) {
+    start: function(callback, lang) {
         if (!SpeechInput.recognition) SpeechInput.init();
         if (!SpeechInput.recognition) return;
         if (SpeechInput.isListening) {
             SpeechInput.recognition.stop();
             return;
         }
+        // Sprache setzen (Standard: fr-FR)
+        SpeechInput.recognition.lang = lang || 'fr-FR';
         SpeechInput.callback = callback;
         SpeechInput.isListening = true;
         try {
@@ -82,6 +84,24 @@ var SpeechInput = {
             // Exakter Treffer (bereinigt)
             if (spokenClean === expectedClean) return true;
             // Auch mit Artikel OK
+            if (spokenResults[i].toLowerCase().trim() === expected.toLowerCase().trim()) return true;
+        }
+        return false;
+    },
+
+    // Vergleicht gesprochenen deutschen Text mit erwartetem Text (tolerant)
+    checkAnswerDE: function(spokenResults, expected) {
+        if (!spokenResults) return false;
+        var clean = function(text) {
+            return text.toLowerCase().trim()
+                .replace(/^(der |die |das |ein |eine |einen |einem |einer |des |dem |den )/i, '')
+                .replace(/[.,!?;:'"]/g, '')
+                .trim();
+        };
+        var expectedClean = clean(expected);
+        for (var i = 0; i < spokenResults.length; i++) {
+            var spokenClean = clean(spokenResults[i]);
+            if (spokenClean === expectedClean) return true;
             if (spokenResults[i].toLowerCase().trim() === expected.toLowerCase().trim()) return true;
         }
         return false;

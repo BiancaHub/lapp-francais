@@ -217,10 +217,20 @@ var Vokabeltrainer = {
         html += '</div>';
 
         // Spracheingabe oder Multiple Choice?
-        var useSpeech = (Vokabeltrainer.mode === 'de-fr') && SpeechInput.shouldUseSpeech();
+        var useHoerSpeech = (Vokabeltrainer.mode === 'hoeren') && SpeechInput.supported();
+        var useSpeech = !useHoerSpeech && (Vokabeltrainer.mode === 'de-fr') && SpeechInput.shouldUseSpeech();
 
-        if (useSpeech) {
-            // Spracheingabe-Modus
+        if (useHoerSpeech) {
+            // Hören + Sprechen: Wort wurde gehört → deutsche Antwort sprechen
+            Vokabeltrainer.currentCorrectAnswer = correctAnswer; // = de
+            html += '<div class="speech-container">';
+            html += '<div class="speech-hint">Sprich die deutsche \u00dcbersetzung:</div>';
+            html += '<button class="speech-mic-btn" onclick="Vokabeltrainer.startHoerSpeech()">\uD83C\uDF99\uFE0F</button>';
+            html += '<div class="speech-status" id="speechStatus">Tippe auf das Mikrofon</div>';
+            html += '<div class="speech-result" id="speechResult"></div>';
+            html += '</div>';
+        } else if (useSpeech) {
+            // DE→FR Spracheingabe: französische Antwort sprechen
             Vokabeltrainer.currentCorrectAnswer = correctAnswer;
             html += '<div class="speech-container">';
             html += '<div class="speech-hint">Sprich die franz\u00f6sische \u00dcbersetzung:</div>';
@@ -264,7 +274,56 @@ var Vokabeltrainer = {
 
         SpeechInput.start(function(results, error) {
             Vokabeltrainer.handleSpeechResult(results, error);
-        });
+        }, 'fr-FR');
+    },
+
+    startHoerSpeech: function() {
+        if (Vokabeltrainer.locked) return;
+        var statusEl = document.getElementById('speechStatus');
+        if (statusEl) statusEl.textContent = '\uD83D\uDD34 H\u00f6rt zu...';
+
+        SpeechInput.start(function(results, error) {
+            Vokabeltrainer.handleHoerSpeechResult(results, error);
+        }, 'de-DE');
+    },
+
+    handleHoerSpeechResult: function(results, error) {
+        if (Vokabeltrainer.locked) return;
+        Vokabeltrainer.locked = true;
+        var card = Vokabeltrainer.cards[Vokabeltrainer.current];
+        var statusEl = document.getElementById('speechStatus');
+        var resultEl = document.getElementById('speechResult');
+
+        if (error) {
+            Vokabeltrainer.locked = false;
+            if (statusEl) statusEl.textContent = 'Nicht verstanden \u2014 nochmal versuchen oder \u00fcberspringen';
+            return;
+        }
+
+        var isCorrect = SpeechInput.checkAnswerDE(results, Vokabeltrainer.currentCorrectAnswer);
+        var spoken = results && results[0] ? results[0] : '(nichts erkannt)';
+
+        if (isCorrect) {
+            Vokabeltrainer.correctCount++;
+            Vokabeltrainer.updateSR(card.id, 4);
+            if (resultEl) resultEl.innerHTML = '<div class="speech-correct">\u2705 Richtig! \u201E' + spoken + '\u201C</div>';
+        } else {
+            Vokabeltrainer.wrongCount++;
+            Vokabeltrainer.updateSR(card.id, 1);
+            if (resultEl) resultEl.innerHTML = '<div class="speech-wrong">\u274C Du sagtest: \u201E' + spoken + '\u201C<br>Richtig: <strong>' + Vokabeltrainer.currentCorrectAnswer + '</strong></div>';
+        }
+        App.recordPractice();
+
+        // TTS: französisches Wort nochmal vorspielen zur Bestätigung
+        if (TTS.supported()) {
+            TTS.speak(card.fr);
+        }
+
+        setTimeout(function() {
+            Vokabeltrainer.current++;
+            Vokabeltrainer.locked = false;
+            Vokabeltrainer.renderCard();
+        }, isCorrect ? 800 : 2500);
     },
 
     handleSpeechResult: function(results, error) {
