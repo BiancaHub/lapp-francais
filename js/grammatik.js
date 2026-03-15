@@ -671,8 +671,7 @@ var Grammatik = (function() {
           erklaerung: 'Richtig: que + Vokal → qu\': le film qu\'il aime.'
         }
       ]
-    }
-  ];
+    },
 
     // ── B2 ──
     {
