@@ -1,0 +1,8 @@
+*.pyw
+sync_state.json
+migrate.html
+__pycache__/
+*.py
+*BACKUP*
+*.ps1
+build_app.py

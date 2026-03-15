@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L’App français</title>
+  <link rel="stylesheet" href="css/style.css?v=3">
+</head>
+<body>
+  <header class="app-header">
+    <button class="header-back" id="backBtn">←</button>
+    <h1>L’App français</h1>
+    <span class="header-level" id="levelBadge" style="display:none"></span>
+  </header>
+  <div class="section active" id="home">
+    <div class="welcome-banner">
+      <h2>Bienvenue!</h2>
+      <p>Dein Weg zum Französisch für den Urlaub</p>
+    </div>
+    <div class="stats-bar" id="homeStats"></div>
+    <div id="levelProgress"></div>
+    <div class="home-grid">
+      <div class="home-card" id="cardTest" onclick="Einstufung.start()">
+        <div class="icon">🎯</div>
+        <div class="label">Einstufungstest</div>
+        <div class="sub">Finde dein Level</div>
+      </div>
+      <div class="home-card" onclick="Vokabeltrainer.showTopics()">
+        <div class="icon">📚</div>
+        <div class="label">Vokabeltraining</div>
+        <div class="sub">Wörter lernen</div>
+      </div>
+      <div class="home-card" onclick="Lektionen.show()">
+        <div class="icon">📖</div>
+        <div class="label">Lektionen</div>
+        <div class="sub">Themen &amp; Übungen</div>
+      </div>
+      <div class="home-card" onclick="Grammatik.show()">
+        <div class="icon">📝</div>
+        <div class="label">Grammatik</div>
+        <div class="sub">Nachschlagewerk</div>
+      </div>
+      <div class="home-card locked">
+        <div class="icon">💬</div>
+        <div class="label">Konversation</div>
+        <div class="sub">KI-Chat</div>
+      </div>
+      <div class="home-card" onclick="Fortschritt.show()">
+        <div class="icon">📈</div>
+        <div class="label">Fortschritt</div>
+        <div class="sub">Deine Statistik</div>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="einstufung"><div id="einstufungContent"></div></div>
+  <div class="section" id="vokabeln"><div id="vokabelnContent"></div></div>
+  <div class="section" id="flashcard"><div id="flashcardContent"></div></div>
+  <div class="section" id="fortschritt"><div id="fortschrittContent"></div></div>
+  <div class="section" id="grammatik"><div id="grammatikContent"></div></div>
+  <div class="section" id="lektionen"><div id="lektionenContent"></div></div>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/audio.js?v=3"></script>
+  <script src="js/speech.js?v=1"></script>
+  <script src="js/app.js?v=3"></script>
+  <script src="js/einstufung.js?v=3"></script>
+  <script src="js/vokabeln.js?v=3"></script>
+  <script src="js/fortschritt.js?v=3"></script>
+  <script src="js/grammatik.js?v=3"></script>
+  <script src="js/vokabel_uebungen.js?v=3"></script>
+  <script src="js/lektionen.js?v=3"></script>
+</body>
+</html>
