@@ -33,7 +33,7 @@ var Vokabeltrainer = {
         }
 
         // Themen nach Level sortieren
-        var levelOrder = { 'A1': 1, 'A2': 2, 'B1': 3 };
+        var levelOrder = { 'A1': 1, 'A2': 2, 'B1': 3, 'B2': 4, 'C1': 5, 'C2': 6 };
         var currentLevelNum = levelOrder[level] || 1;
 
         html += '<div class="topic-grid">';
@@ -378,7 +378,7 @@ var Vokabeltrainer = {
     },
 
     checkLevelUp: function() {
-        var levels = ['A1', 'A2', 'B1'];
+        var levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
         var currentLevel = App.state.level || 'A1';
         var currentIdx = levels.indexOf(currentLevel);
         if (currentIdx < 0 || currentIdx >= levels.length - 1) return null;
