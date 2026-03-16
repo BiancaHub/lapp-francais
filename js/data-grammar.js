@@ -270,7 +270,7 @@ var GRAMMAR_UNITS = [
       { typ: 'tippen', de: 'ein großer Strand',          fr: 'une grande plage',  erklaerung: 'plage (f.) → grande (f.)' },
       { typ: 'tippen', de: 'ein schönes Hotel',           fr: 'un bel hôtel',      erklaerung: 'beau → bel vor Vokal/stumm-h; hôtel (m.)' },
       { typ: 'tippen', de: 'der Rotwein',                 fr: 'le vin rouge',      erklaerung: 'Farben stehen nach dem Nomen' },
-      { typ: 'tippen', de: 'eine gute Idée',              fr: 'une bonne idée',    erklaerung: 'bon (m.) → bonne (f.); steht vor dem Nomen' },
+      { typ: 'tippen', de: 'eine gute Idee',               fr: 'une bonne idée',    erklaerung: 'bon (m.) → bonne (f.); steht vor dem Nomen' },
       { typ: 'tippen', de: 'ein komfortables Zimmer',     fr: 'une chambre confortable', erklaerung: 'confortable = gleich für m. und f.' },
       { typ: 'tippen', de: 'schöne Strände',              fr: 'de belles plages',  erklaerung: 'Pl. vor Nomen: des → de; belle → belles' },
       { typ: 'richtigfalsch', frage: 'Im Französischen stehen Farben immer vor dem Nomen.', antwort: false,
