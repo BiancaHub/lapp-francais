@@ -6,7 +6,8 @@ var App = (function() {
   // Unit-Status: 'open' | 'active' | 'done'
   // units[id].sr = { exKey: { ease, interval, repetitions, nextReview } }
   var state = {
-    units: {},        // { unitId: { status, score, lastPractice, sr: {...} } }
+    units:     {},    // { unitId: { status, score, lastPractice, sr: {...} } }
+    szenarien: {},    // { szenarioId: { status, score } }
     streak: 0,
     lastActive: null
   };
@@ -19,6 +20,7 @@ var App = (function() {
       if (saved) {
         var parsed = JSON.parse(saved);
         state.units        = parsed.units        || {};
+        state.szenarien    = parsed.szenarien    || {};
         state.streak       = parsed.streak       || 0;
         state.lastActive   = parsed.lastActive   || null;
       }
@@ -105,39 +107,71 @@ var App = (function() {
     return count;
   }
 
+  // ─── SZENARIEN STATE ──────────────────────────────────────────────────────
+
+  function getSzenarioStatus(id) {
+    return (state.szenarien[id] && state.szenarien[id].status) || 'open';
+  }
+
+  function setSzenarioStatus(id, status, score) {
+    if (!state.szenarien[id]) state.szenarien[id] = {};
+    state.szenarien[id].status = status;
+    if (score !== undefined) state.szenarien[id].score = score;
+    saveState();
+  }
+
   // ─── ROUTING ──────────────────────────────────────────────────────────────
 
-  var currentView = 'path';
+  var currentView   = 'path';
   var currentUnitId = null;
+  var _backView     = 'path';  // wohin der ← Zurück-Button führt
 
-  function showView(view, unitId) {
+  function showView(view, itemId) {
     currentView   = view;
-    currentUnitId = unitId || null;
+    currentUnitId = itemId || null;
 
     var main    = document.getElementById('mainContent');
     var btnBack = document.getElementById('btnBack');
     var title   = document.getElementById('headerTitle');
 
     if (view === 'path') {
+      _backView = 'path';
       btnBack.classList.remove('visible');
       title.textContent = "L'App français";
       Path.render(main);
 
-    } else if (view === 'unit' && unitId) {
-      var unit = Grammar.getUnit(unitId);
+    } else if (view === 'unit' && itemId) {
+      _backView = 'path';
+      var unit = Grammar.getUnit(itemId);
       btnBack.classList.add('visible');
       title.textContent = unit ? unit.titel : '—';
-      Unit.render(main, unitId);
+      Unit.render(main, itemId);
 
     } else if (view === 'diagnostic') {
+      _backView = 'path';
       btnBack.classList.add('visible');
       title.textContent = 'Einstufungstest';
       // Diagnostic rendert sich selbst via Diagnostic.start()
+
+    } else if (view === 'szenarien') {
+      _backView = 'path';
+      btnBack.classList.add('visible');
+      title.textContent = 'Alltagsszenarien';
+      Szenarien.renderList(main);
+
+    } else if (view === 'szenario' && itemId) {
+      _backView = 'szenarien';
+      var sz = SzenarienData.get(itemId);
+      btnBack.classList.add('visible');
+      title.textContent = sz ? sz.icon + ' ' + sz.titel : '—';
+      Szenarien.renderSzenario(main, itemId);
     }
   }
 
   function goBack() {
-    showView('path');
+    var dest = _backView;
+    _backView = 'path';
+    showView(dest);
   }
 
   // ─── INIT ─────────────────────────────────────────────────────────────────
@@ -152,16 +186,18 @@ var App = (function() {
   // ─── PUBLIC API ───────────────────────────────────────────────────────────
 
   return {
-    getUnitStatus  : getUnitStatus,
-    setUnitStatus  : setUnitStatus,
-    showView       : showView,
-    goBack         : goBack,
-    getState       : function() { return state; },
-    exKey          : exKey,
-    getExSR        : getExSR,
-    updateExSR     : updateExSR,
-    getUnitDueCount: getUnitDueCount,
-    saveState      : saveState
+    getUnitStatus      : getUnitStatus,
+    setUnitStatus      : setUnitStatus,
+    getSzenarioStatus  : getSzenarioStatus,
+    setSzenarioStatus  : setSzenarioStatus,
+    showView           : showView,
+    goBack             : goBack,
+    getState           : function() { return state; },
+    exKey              : exKey,
+    getExSR            : getExSR,
+    updateExSR         : updateExSR,
+    getUnitDueCount    : getUnitDueCount,
+    saveState          : saveState
   };
 
 })();

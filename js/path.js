@@ -108,6 +108,21 @@ var Path = (function() {
       html += '</div></div>';
     });
 
+    // ── Szenarien-Banner ──
+    var szAll  = (typeof SzenarienData !== 'undefined') ? SzenarienData.getAll() : [];
+    var szDone = 0;
+    szAll.forEach(function(s) { if (App.getSzenarioStatus(s.id) === 'done') szDone++; });
+    if (szAll.length > 0) {
+      html += '<div class="szenarien-banner" onclick="App.showView(\'szenarien\')">';
+      html += '<span class="sz-banner-icon">🌍</span>';
+      html += '<div class="sz-banner-text">';
+      html += '<strong>Alltagsszenarien</strong><br>';
+      html += '<span>Dialoge aus dem echten Frankreich-Urlaub — ' + szDone + ' / ' + szAll.length + ' erledigt</span>';
+      html += '</div>';
+      html += '<span class="sz-banner-arrow">→</span>';
+      html += '</div>';
+    }
+
     html += '</div>'; // path-container
     container.innerHTML = html;
   }

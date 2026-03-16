@@ -283,6 +283,198 @@ var GRAMMAR_UNITS = [
   },
 
   // ══════════════════════════════════════════════════════════════════
+  //  A2 — -er Verben
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'er-verben', level: 'A2', titel: '-er Verben: parler, manger, habiter',
+    vokabeln: ['begruessung', 'restaurant'],
+    erklaerung:
+      '-er Verben sind die größte Verbgruppe im Französischen. Das Muster ist regelmäßig:<br><br>' +
+      '<strong>parler</strong> (sprechen) — Stamm: <em>parl-</em><br>' +
+      '<table class="gram-table">' +
+      '<tr><td><em>je parle</em></td><td>ich spreche</td></tr>' +
+      '<tr><td><em>tu parles</em></td><td>du sprichst</td></tr>' +
+      '<tr><td><em>il/elle parle</em></td><td>er/sie spricht</td></tr>' +
+      '<tr><td><em>nous parlons</em></td><td>wir sprechen</td></tr>' +
+      '<tr><td><em>vous parlez</em></td><td>ihr sprecht / Sie sprechen</td></tr>' +
+      '<tr><td><em>ils/elles parlent</em></td><td>sie sprechen</td></tr>' +
+      '</table><br>' +
+      '<strong>Tipp:</strong> je, tu, il/elle, ils/elles klingen gleich — das -e, -es, -ent ist stumm!<br><br>' +
+      '<strong>Besonderheiten:</strong><br>' +
+      '• <em>manger</em> (essen): nous <em>mang<u>e</u>ons</em> — e vor o/a für weichen Laut<br>' +
+      '• <em>commencer</em> (beginnen): nous <em>commen<u>ç</u>ons</em> — ç vor o/a<br>' +
+      '• <em>appeler</em> (anrufen): j\'<em>app<u>elle</u></em>, tu <em>app<u>elles</u></em> — Konsonantenverdoppelung<br><br>' +
+      '<strong>Häufige -er Verben:</strong> parler, manger, habiter (wohnen), travailler (arbeiten), voyager (reisen), commander (bestellen), aimer (mögen), arriver (ankommen)',
+    beispiele: [
+      { fr: 'Je parle français.',         de: 'Ich spreche Französisch.' },
+      { fr: 'Nous habitons à Berlin.',     de: 'Wir wohnen in Berlin.' },
+      { fr: 'Elle travaille beaucoup.',    de: 'Sie arbeitet viel.' },
+      { fr: 'Vous voyagez souvent ?',      de: 'Reisen Sie oft?' },
+      { fr: 'Ils mangent au restaurant.', de: 'Sie essen im Restaurant.' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'Ich spreche Französisch.',      fr: 'Je parle français.',         erklaerung: 'parler: je → parle' },
+      { typ: 'tippen', de: 'Wir wohnen in Berlin.',         fr: 'Nous habitons à Berlin.',    erklaerung: 'habiter: nous → habitons' },
+      { typ: 'tippen', de: 'Sie arbeitet viel.',            fr: 'Elle travaille beaucoup.',   erklaerung: 'travailler: elle → travaille' },
+      { typ: 'tippen', de: 'Sie essen im Restaurant.',      fr: 'Ils mangent au restaurant.', erklaerung: 'manger: ils → mangent' },
+      { typ: 'tippen', de: 'Ich reise nach Frankreich.',    fr: 'Je voyage en France.',       erklaerung: 'voyager: je → voyage' },
+      { typ: 'tippen', de: 'Wir bestellen zwei Kaffees.',   fr: 'Nous commandons deux cafés.', erklaerung: 'commander: nous → commandons' },
+      { typ: 'tippen', de: 'Du magst Paris.',               fr: 'Tu aimes Paris.',            erklaerung: 'aimer: tu → aimes' },
+      { typ: 'richtigfalsch', frage: 'Bei -er Verben ist die Endung für je, tu, il/elle und ils/elles im Klang identisch — sie sind alle stumm.', antwort: true,
+        erklaerung: 'Ja — parle, parles, parlent klingen alle gleich. Nur nous (-ons) und vous (-ez) sind anders.' },
+      { typ: 'richtigfalsch', frage: '"Nous mangons" ist korrekt für "nous manger".', antwort: false,
+        erklaerung: 'Wegen des weichen g-Lauts: nous mangEons — das e bleibt erhalten.' },
+      { typ: 'luecke', satz: 'Elle ___ dans un hôtel. (travailler)', loesung: 'travaille', erklaerung: 'travailler: elle → travaille' },
+      { typ: 'luecke', satz: 'Vous ___ français ? (parler)',          loesung: 'parlez',    erklaerung: 'parler: vous → parlez' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  //  A2 — Passé composé
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'passe-compose', level: 'A2', titel: 'Passé composé: Vergangenheit',
+    vokabeln: ['restaurant', 'strand'],
+    erklaerung:
+      'Das <em>passé composé</em> ist die häufigste Vergangenheitsform im gesprochenen Französisch.<br><br>' +
+      '<strong>Formel: avoir oder être (konjugiert) + Partizip (participe passé)</strong><br><br>' +
+      '<strong>Partizip bilden:</strong><br>' +
+      '• -er Verben: <em>manger → mangé</em><br>' +
+      '• -ir Verben: <em>finir → fini</em><br>' +
+      '• -re Verben: <em>prendre → pris</em> (unregelmäßig)<br><br>' +
+      '<strong>Mit avoir</strong> (die meisten Verben):<br>' +
+      '<table class="gram-table">' +
+      '<tr><td><em>j\'ai mangé</em></td><td>ich habe gegessen</td></tr>' +
+      '<tr><td><em>tu as mangé</em></td><td>du hast gegessen</td></tr>' +
+      '<tr><td><em>il/elle a mangé</em></td><td>er/sie hat gegessen</td></tr>' +
+      '<tr><td><em>nous avons mangé</em></td><td>wir haben gegessen</td></tr>' +
+      '<tr><td><em>vous avez mangé</em></td><td>ihr habt gegessen</td></tr>' +
+      '<tr><td><em>ils ont mangé</em></td><td>sie haben gegessen</td></tr>' +
+      '</table><br>' +
+      '<strong>Mit être</strong> (Bewegungs- und Zustandsverben + Reflexive):<br>' +
+      'Eselsbrücke <strong>DR MRS VANDERTRAMP</strong>: aller, venir, partir, arriver, entrer, sortir, monter, descendre, naître, mourir, rester, tomber…<br>' +
+      '→ <em>Je suis allé(e) à Paris.</em> — Ich bin nach Paris gegangen.<br>' +
+      '→ <em>Elle est arrivée hier.</em> — Sie ist gestern angekommen.<br><br>' +
+      '<strong>Wichtige unregelmäßige Partizipien:</strong><br>' +
+      'être → <em>été</em> · avoir → <em>eu</em> · faire → <em>fait</em> · prendre → <em>pris</em> · voir → <em>vu</em> · venir → <em>venu</em>',
+    beispiele: [
+      { fr: "J'ai mangé une pizza.",           de: 'Ich habe eine Pizza gegessen.' },
+      { fr: "Nous avons visité le musée.",      de: 'Wir haben das Museum besucht.' },
+      { fr: "Elle est arrivée à l'hôtel.",     de: 'Sie ist im Hotel angekommen.' },
+      { fr: "Il a pris le train.",             de: 'Er hat den Zug genommen.' },
+      { fr: "Vous avez réservé une chambre ?", de: 'Haben Sie ein Zimmer reserviert?' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'Ich habe eine Pizza gegessen.',      fr: "J'ai mangé une pizza.",          erklaerung: 'manger → mangé; avoir: j\'ai mangé' },
+      { typ: 'tippen', de: 'Wir haben das Museum besucht.',      fr: 'Nous avons visité le musée.',    erklaerung: 'visiter → visité; avoir: nous avons visité' },
+      { typ: 'tippen', de: 'Sie ist im Hotel angekommen.',       fr: "Elle est arrivée à l'hôtel.",   erklaerung: 'arriver → mit être; elle est arrivéE (Angleichung!)' },
+      { typ: 'tippen', de: 'Er hat den Zug genommen.',           fr: 'Il a pris le train.',            erklaerung: 'prendre → pris (unregelmäßig); avoir: il a pris' },
+      { typ: 'tippen', de: 'Haben Sie ein Zimmer reserviert?',   fr: 'Vous avez réservé une chambre ?', erklaerung: 'réserver → réservé; avoir: vous avez réservé' },
+      { typ: 'tippen', de: 'Ich bin nach Paris gefahren.',       fr: 'Je suis allé à Paris.',          erklaerung: 'aller → mit être; je suis allé' },
+      { typ: 'tippen', de: 'Wir haben viel gegessen.',           fr: 'Nous avons beaucoup mangé.',     erklaerung: 'manger → mangé; nous avons mangé' },
+      { typ: 'richtigfalsch', frage: '"Aller" bildet das passé composé mit "avoir": "j\'ai allé".', antwort: false,
+        erklaerung: '"Aller" gehört zu den être-Verben: je suis allé(e).' },
+      { typ: 'richtigfalsch', frage: 'Das Partizip von "-er" Verben endet auf -é: manger → mangé.', antwort: true,
+        erklaerung: 'Ja — -er Verben: Stamm + é. z.B. parler → parlé, visiter → visité.' },
+      { typ: 'luecke', satz: 'Nous ___ visité le château hier. (avoir)', loesung: 'avons', erklaerung: 'avoir Pl.: nous avons' },
+      { typ: 'luecke', satz: 'Elle ___ partie tôt. (être)',              loesung: 'est',   erklaerung: 'partir = être-Verb: elle est partie' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  //  A2 — Possessivbegleiter
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'possessiv', level: 'A2', titel: 'Possessivbegleiter: mon, ma, mes…',
+    vokabeln: ['hotel', 'begruessung'],
+    erklaerung:
+      'Possessivbegleiter richten sich nach dem <strong>Geschlecht des besessenen Nomens</strong> — nicht nach dem Besitzer!<br><br>' +
+      '<table class="gram-table">' +
+      '<tr><th>Besitzer</th><th>m. Sg.</th><th>f. Sg.</th><th>Plural</th></tr>' +
+      '<tr><td>ich</td><td><em>mon</em></td><td><em>ma</em></td><td><em>mes</em></td></tr>' +
+      '<tr><td>du</td><td><em>ton</em></td><td><em>ta</em></td><td><em>tes</em></td></tr>' +
+      '<tr><td>er/sie</td><td><em>son</em></td><td><em>sa</em></td><td><em>ses</em></td></tr>' +
+      '<tr><td>wir</td><td colspan="2"><em>notre</em></td><td><em>nos</em></td></tr>' +
+      '<tr><td>ihr/Sie</td><td colspan="2"><em>votre</em></td><td><em>vos</em></td></tr>' +
+      '<tr><td>sie (Pl.)</td><td colspan="2"><em>leur</em></td><td><em>leurs</em></td></tr>' +
+      '</table><br>' +
+      '<strong>Sonderfall:</strong> Vor f. Nomen, die mit Vokal beginnen: <em>ma → mon</em>:<br>' +
+      '→ <em>mon amie</em> (meine Freundin), <em>mon adresse</em> (meine Adresse)<br><br>' +
+      '<strong>Tipp:</strong> <em>son/sa/ses</em> kann "sein", "ihr" oder "Ihr" bedeuten — der Kontext entscheidet!',
+    beispiele: [
+      { fr: 'mon passeport',     de: 'mein Reisepass (m.)' },
+      { fr: 'ma chambre',        de: 'mein Zimmer (f.)' },
+      { fr: 'mes bagages',       de: 'mein Gepäck (Pl.)' },
+      { fr: 'votre réservation', de: 'Ihre Reservierung' },
+      { fr: 'son billet',        de: 'sein/ihr Ticket (m.)' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'mein Reisepass (m.)',      fr: 'mon passeport',     erklaerung: 'passeport = m. → mon' },
+      { typ: 'tippen', de: 'mein Zimmer (f.)',          fr: 'ma chambre',        erklaerung: 'chambre = f. → ma' },
+      { typ: 'tippen', de: 'Ihre Reservierung (f.)',    fr: 'votre réservation', erklaerung: 'votre = Sg. (vous-Form), egal ob m/f' },
+      { typ: 'tippen', de: 'sein Ticket (m.)',          fr: 'son billet',        erklaerung: 'billet = m. → son (nicht sa!)' },
+      { typ: 'tippen', de: 'unsere Koffer (Pl.)',       fr: 'nos valises',       erklaerung: 'nos = wir + Plural' },
+      { typ: 'tippen', de: 'meine Freundin (f., Vokal)', fr: 'mon amie',         erklaerung: 'amie beginnt mit Vokal → mon statt ma' },
+      { typ: 'richtigfalsch', frage: '"Son" richtet sich nach dem Geschlecht des Besitzers.', antwort: false,
+        erklaerung: 'Nein — son/sa/ses richten sich nach dem besessenen Nomen: son sac (m.) = seine/ihre Tasche.' },
+      { typ: 'richtigfalsch', frage: 'Vor einem f. Nomen mit Vokalanfang steht "mon" statt "ma": mon amie.', antwort: true,
+        erklaerung: 'Genau — mon amie, mon adresse, mon école (obwohl feminin).' },
+      { typ: 'luecke', satz: 'Voici ___ passeport, madame.', loesung: 'mon', erklaerung: 'passeport (m.) → mon; Sprecher ist weiblich, trotzdem mon!' },
+      { typ: 'luecke', satz: 'Est-ce que ___ chambre est prête ?', loesung: 'notre', erklaerung: 'nous → notre (Sg. Nomen, m. oder f. gleich)' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  //  A2 — Unregelmäßige Verben
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'irreg-verben', level: 'A2', titel: 'Unregelmäßige Verben: aller, faire, venir…',
+    vokabeln: ['restaurant', 'wegbeschreibung'],
+    erklaerung:
+      'Diese Verben muss man auswendig lernen — sie folgen keinem Muster:<br><br>' +
+      '<strong>aller</strong> (gehen/fahren):<br>' +
+      '<em>je vais · tu vas · il va · nous allons · vous allez · ils vont</em><br><br>' +
+      '<strong>faire</strong> (machen/tun):<br>' +
+      '<em>je fais · tu fais · il fait · nous faisons · vous faites · ils font</em><br><br>' +
+      '<strong>venir</strong> (kommen):<br>' +
+      '<em>je viens · tu viens · il vient · nous venons · vous venez · ils viennent</em><br><br>' +
+      '<strong>pouvoir</strong> (können):<br>' +
+      '<em>je peux · tu peux · il peut · nous pouvons · vous pouvez · ils peuvent</em><br><br>' +
+      '<strong>vouloir</strong> (wollen):<br>' +
+      '<em>je veux · tu veux · il veut · nous voulons · vous voulez · ils veulent</em><br><br>' +
+      '<strong>prendre</strong> (nehmen):<br>' +
+      '<em>je prends · tu prends · il prend · nous prenons · vous prenez · ils prennent</em><br><br>' +
+      '<strong>Tipp:</strong> <em>pouvoir + Infinitiv</em> = können: <em>Je peux vous aider ?</em> (Kann ich Ihnen helfen?)<br>' +
+      '<em>vouloir + Infinitiv</em> = wollen: <em>Je veux réserver une table.</em>',
+    beispiele: [
+      { fr: 'Je vais à la plage.',           de: 'Ich gehe zum Strand.' },
+      { fr: 'Qu\'est-ce que tu fais ?',      de: 'Was machst du?' },
+      { fr: 'Elle vient avec nous.',         de: 'Sie kommt mit uns.' },
+      { fr: 'Vous pouvez m\'aider ?',        de: 'Können Sie mir helfen?' },
+      { fr: 'Je veux réserver une table.',   de: 'Ich möchte einen Tisch reservieren.' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'Ich gehe zum Strand.',                fr: 'Je vais à la plage.',          erklaerung: 'aller: je → vais' },
+      { typ: 'tippen', de: 'Was machst du?',                       fr: "Qu'est-ce que tu fais ?",      erklaerung: 'faire: tu → fais' },
+      { typ: 'tippen', de: 'Sie kommt mit uns.',                   fr: 'Elle vient avec nous.',        erklaerung: 'venir: elle → vient' },
+      { typ: 'tippen', de: 'Können Sie mir helfen?',               fr: 'Vous pouvez m\'aider ?',       erklaerung: 'pouvoir: vous → pouvez + Infinitiv aider' },
+      { typ: 'tippen', de: 'Ich möchte einen Tisch reservieren.',  fr: 'Je veux réserver une table.', erklaerung: 'vouloir: je → veux + Infinitiv' },
+      { typ: 'tippen', de: 'Er nimmt das Menu.',                   fr: 'Il prend le menu.',            erklaerung: 'prendre: il → prend' },
+      { typ: 'tippen', de: 'Wir machen eine Pause.',               fr: 'Nous faisons une pause.',      erklaerung: 'faire: nous → faisons' },
+      { typ: 'richtigfalsch', frage: '"Vous faites" ist die korrekte vous-Form von "faire".', antwort: true,
+        erklaerung: 'Ja — faire ist unregelmäßig: vous faites (nicht "vous faisez").' },
+      { typ: 'richtigfalsch', frage: '"Ils vont" kommt von "venir".', antwort: false,
+        erklaerung: '"Ils vont" kommt von "aller". "Venir" wäre: ils viennent.' },
+      { typ: 'luecke', satz: 'Tu ___ d\'où ? (venir)',             loesung: 'viens',  erklaerung: 'venir: tu → viens' },
+      { typ: 'luecke', satz: 'Nous ___ une promenade. (faire)',    loesung: 'faisons', erklaerung: 'faire: nous → faisons' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════════
   //  A2 — Futur proche
   // ══════════════════════════════════════════════════════════════════
 
@@ -508,6 +700,103 @@ var GRAMMAR_UNITS = [
         erklaerung: '"lui" = indirektes Pronomen Sg.: Je parle à Pierre → Je lui parle.' },
       { typ: 'luecke', satz: 'Tu ___ appelles ? (sie anrufen — la serveuse)', loesung: 'la',   erklaerung: 'la serveuse (f. Sg.) → la' },
       { typ: 'luecke', satz: 'Je ___ donne le menu. (ihnen — aux clients)',   loesung: 'leur', erklaerung: 'aux clients (Pl.) → leur (indirekt)' }
+    ]
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  //  B1 — Imparfait
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'imparfait', level: 'B1', titel: 'Imparfait: Beschreibung in der Vergangenheit',
+    vokabeln: ['strand', 'hotel'],
+    erklaerung:
+      'Das <em>imparfait</em> beschreibt andauernde Zustände, Gewohnheiten oder den Hintergrund in der Vergangenheit — im Gegensatz zum passé composé (abgeschlossene Ereignisse).<br><br>' +
+      '<strong>Bildung:</strong> nous-Präsensstamm + Imparfait-Endungen<br><br>' +
+      '<table class="gram-table">' +
+      '<tr><th>Pronomen</th><th>Endung</th><th>parler</th></tr>' +
+      '<tr><td><em>je</em></td><td><em>-ais</em></td><td><em>je parlais</em></td></tr>' +
+      '<tr><td><em>tu</em></td><td><em>-ais</em></td><td><em>tu parlais</em></td></tr>' +
+      '<tr><td><em>il/elle</em></td><td><em>-ait</em></td><td><em>il parlait</em></td></tr>' +
+      '<tr><td><em>nous</em></td><td><em>-ions</em></td><td><em>nous parlions</em></td></tr>' +
+      '<tr><td><em>vous</em></td><td><em>-iez</em></td><td><em>vous parliez</em></td></tr>' +
+      '<tr><td><em>ils/elles</em></td><td><em>-aient</em></td><td><em>ils parlaient</em></td></tr>' +
+      '</table><br>' +
+      '<strong>Ausnahme:</strong> être: <em>j\'étais, tu étais, il était, nous étions, vous étiez, ils étaient</em><br><br>' +
+      '<strong>Imparfait vs. Passé composé:</strong><br>' +
+      '• Imparfait: Hintergrund, Beschreibung, Gewohnheit → "Il faisait beau." (Es war schön.)<br>' +
+      '• Passé composé: konkretes Ereignis → "Nous avons pris le bus." (Wir haben den Bus genommen.)',
+    beispiele: [
+      { fr: "Il faisait beau et nous étions contents.", de: 'Das Wetter war schön und wir waren glücklich.' },
+      { fr: "Quand j'étais enfant, j'habitais à Paris.", de: 'Als ich Kind war, wohnte ich in Paris.' },
+      { fr: "Elle lisait un livre sur la plage.",         de: 'Sie las ein Buch am Strand.' },
+      { fr: "Tous les jours, il prenait le même café.",  de: 'Jeden Tag trank er denselben Kaffee.' },
+      { fr: "Nous mangions souvent dans ce restaurant.", de: 'Wir aßen oft in diesem Restaurant.' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'Das Wetter war schön.',                fr: 'Il faisait beau.',              erklaerung: 'faire → imparfait: il faisait (nous faisons → fais- + ait)' },
+      { typ: 'tippen', de: 'Ich war Kind.',                         fr: "J'étais enfant.",               erklaerung: 'être → Ausnahme: j\'étais' },
+      { typ: 'tippen', de: 'Sie las ein Buch am Strand.',          fr: 'Elle lisait un livre sur la plage.', erklaerung: 'lire → nous lisons → lis- + ait = lisait' },
+      { typ: 'tippen', de: 'Wir aßen oft in diesem Restaurant.',   fr: 'Nous mangions souvent dans ce restaurant.', erklaerung: 'manger → nous mangeons → mange- + ions = mangions' },
+      { typ: 'tippen', de: 'Es regnete.',                           fr: 'Il pleuvait.',                  erklaerung: 'pleuvoir → il pleuvait (Imparfait für Wetterbeschreibung)' },
+      { typ: 'tippen', de: 'Als Kind wohnte ich in München.',       fr: "Quand j'étais enfant, j'habitais à Munich.", erklaerung: 'Gewohnheit in der Vergangenheit → imparfait' },
+      { typ: 'richtigfalsch', frage: 'Das imparfait beschreibt abgeschlossene Einzelereignisse, z.B. "Ich kam an".', antwort: false,
+        erklaerung: 'Nein — abgeschlossene Ereignisse = passé composé (je suis arrivé). Imparfait = Hintergrund, Zustände, Gewohnheiten.' },
+      { typ: 'richtigfalsch', frage: 'Der Imparfait-Stamm kommt von der nous-Präsensform (ohne -ons).', antwort: true,
+        erklaerung: 'Genau — nous parlons → parl- + ais/ait/ions/iez/aient.' },
+      { typ: 'luecke', satz: 'Quand il ___ jeune, il jouait au foot. (être)', loesung: 'était', erklaerung: 'être → imparfait: il était' },
+      { typ: 'luecke', satz: 'Nous ___ souvent à la mer. (aller)',             loesung: 'allions', erklaerung: 'aller → nous allons → all- + ions = allions' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════════
+  //  B2 — Conditionnel
+  // ══════════════════════════════════════════════════════════════════
+
+  {
+    id: 'conditionnel', level: 'B2', titel: 'Conditionnel: Ich würde / Je voudrais…',
+    vokabeln: ['restaurant', 'hotel'],
+    erklaerung:
+      'Der <em>conditionnel présent</em> drückt Wünsche, höfliche Bitten und hypothetische Situationen aus.<br><br>' +
+      '<strong>Bildung:</strong> Futurstamm (= Infinitiv) + Imparfait-Endungen<br><br>' +
+      '<table class="gram-table">' +
+      '<tr><th>Pronomen</th><th>Endung</th><th>vouloir</th></tr>' +
+      '<tr><td><em>je</em></td><td><em>-ais</em></td><td><em>je voudrais</em></td></tr>' +
+      '<tr><td><em>tu</em></td><td><em>-ais</em></td><td><em>tu voudrais</em></td></tr>' +
+      '<tr><td><em>il/elle</em></td><td><em>-ait</em></td><td><em>il voudrait</em></td></tr>' +
+      '<tr><td><em>nous</em></td><td><em>-ions</em></td><td><em>nous voudrions</em></td></tr>' +
+      '<tr><td><em>vous</em></td><td><em>-iez</em></td><td><em>vous voudriez</em></td></tr>' +
+      '<tr><td><em>ils/elles</em></td><td><em>-aient</em></td><td><em>ils voudraient</em></td></tr>' +
+      '</table><br>' +
+      '<strong>Wichtige Conditionalformen im Urlaub:</strong><br>' +
+      '• <em>je voudrais</em> — ich hätte gern / ich möchte (höflicher als je veux!)<br>' +
+      '• <em>ce serait</em> — das wäre (être: ser- + ait)<br>' +
+      '• <em>il faudrait</em> — man müsste / es wäre nötig (falloir: faudr-)<br>' +
+      '• <em>j\'aimerais</em> — ich würde gern (aimer: aimer- + ais)<br>' +
+      '• <em>pourriez-vous ?</em> — könnten Sie? (pouvoir: pourr- + iez)<br><br>' +
+      '<strong>Hypothetische Sätze mit "si":</strong><br>' +
+      'Si + Imparfait → Conditionnel: <em>Si j\'avais le temps, je visiterais Paris.</em><br>' +
+      '(Wenn ich Zeit hätte, würde ich Paris besuchen.)',
+    beispiele: [
+      { fr: "Je voudrais une chambre pour deux nuits.",     de: 'Ich hätte gern ein Zimmer für zwei Nächte.' },
+      { fr: "Pourriez-vous appeler un taxi ?",              de: 'Könnten Sie ein Taxi rufen?' },
+      { fr: "Ce serait parfait.",                           de: 'Das wäre perfekt.' },
+      { fr: "J'aimerais visiter le Louvre.",                de: 'Ich würde gern den Louvre besuchen.' },
+      { fr: "Il faudrait réserver à l'avance.",             de: 'Man müsste im Voraus reservieren.' }
+    ],
+    uebungen: [
+      { typ: 'tippen', de: 'Ich hätte gern ein Zimmer für zwei Nächte.', fr: 'Je voudrais une chambre pour deux nuits.', erklaerung: 'vouloir → conditionnel: je voudrais (höfliche Standardform)' },
+      { typ: 'tippen', de: 'Könnten Sie ein Taxi rufen?',                fr: 'Pourriez-vous appeler un taxi ?',           erklaerung: 'pouvoir → conditionnel: pourriez-vous ? (höfliche Bitte)' },
+      { typ: 'tippen', de: 'Das wäre perfekt.',                           fr: 'Ce serait parfait.',                        erklaerung: 'être → conditionnel: serait (Stamm: ser-)' },
+      { typ: 'tippen', de: 'Ich würde gern den Strand besuchen.',         fr: "J'aimerais visiter la plage.",              erklaerung: 'aimer → conditionnel: j\'aimerais' },
+      { typ: 'tippen', de: 'Man müsste früher ankommen.',                  fr: 'Il faudrait arriver plus tôt.',             erklaerung: 'falloir → conditionnel: il faudrait' },
+      { typ: 'tippen', de: 'Hätten Sie ein Zimmer frei?',                 fr: 'Est-ce que vous auriez une chambre libre ?', erklaerung: 'avoir → conditionnel: vous auriez' },
+      { typ: 'richtigfalsch', frage: '"Je voudrais" ist höflicher als "je veux".', antwort: true,
+        erklaerung: 'Ja — "je veux" klingt fordernd. Im Restaurant, Hotel usw. immer "je voudrais".' },
+      { typ: 'richtigfalsch', frage: 'Der Conditionnel wird mit dem Präsensstamm + Imparfait-Endungen gebildet.', antwort: false,
+        erklaerung: 'Nicht Präsensstamm — Futurstamm (= meist Infinitiv). z.B. manger → mangerais.' },
+      { typ: 'luecke', satz: 'Je ___ visiter le château demain. (aimer)', loesung: 'aimerais', erklaerung: 'aimer → conditionnel: j\'aimerais' },
+      { typ: 'luecke', satz: 'Ce ___ super de voyager ensemble ! (être)',  loesung: 'serait',   erklaerung: 'être → conditionnel: ce serait' }
     ]
   }
 
