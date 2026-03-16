@@ -701,7 +701,7 @@ var GRAMMAR_UNITS = [
       { typ: 'luecke', satz: 'Tu ___ appelles ? (sie anrufen — la serveuse)', loesung: 'la',   erklaerung: 'la serveuse (f. Sg.) → la' },
       { typ: 'luecke', satz: 'Je ___ donne le menu. (ihnen — aux clients)',   loesung: 'leur', erklaerung: 'aux clients (Pl.) → leur (indirekt)' }
     ]
-  }
+  },
 
   // ══════════════════════════════════════════════════════════════════
   //  B1 — Imparfait
