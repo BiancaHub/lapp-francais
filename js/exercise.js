@@ -304,7 +304,7 @@ var Exercise = (function() {
       current++;
       locked = false;
       _render();
-    }, isCorrect ? 1200 : 2500);
+    }, isCorrect ? 1200 : 4500);
   }
 
   // ─── SCORE ────────────────────────────────────────────────────────────────
