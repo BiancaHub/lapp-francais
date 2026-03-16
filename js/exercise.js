@@ -242,7 +242,12 @@ var Exercise = (function() {
     var correctAnswer = (ex.typ === 'luecke') ? (ex.antwort || ex.loesung) : ex.fr;
     var isCorrect     = _compare(inp.value, correctAnswer);
 
-    var wrongMsg = isCorrect ? '' : 'Richtig wäre: <strong>' + correctAnswer + '</strong>';
+    // Hauptantwort für Feedback (erstes Element wenn Array)
+    var primaryAnswer = Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer;
+    var wrongMsg = isCorrect ? '' : 'Richtig wäre: <strong>' + primaryAnswer + '</strong>';
+    if (!isCorrect && Array.isArray(correctAnswer) && correctAnswer.length > 1) {
+      wrongMsg += ' <span class="ex-feedback-de">(auch: ' + correctAnswer.slice(1).join(' / ') + ')</span>';
+    }
     // Bei Hören-Übungen: deutsche Übersetzung zeigen damit der Satz verständlich wird
     if (!isCorrect && ex.typ === 'hoeren' && ex.de) {
       wrongMsg += ' <span class="ex-feedback-de">(🇩🇪 ' + ex.de + ')</span>';
@@ -348,17 +353,19 @@ var Exercise = (function() {
   // ─── HELPERS ──────────────────────────────────────────────────────────────
 
   // Toleranter Vergleich: Groß/Klein, Leerzeichen, Satzzeichen egal
+  // correct kann String oder Array von Strings sein
   function _compare(user, correct) {
     var norm = function(s) {
       return s
-        .replace(/[\u2018\u2019\u201A\u201B\uFF07]/g, "'")
+        .replace(/[\u2018\u2019\u201A\u201B\uFF07']/g, '')  // Apostrophe ignorieren
         .toLowerCase()
         .trim()
-        .replace(/[.,!?;:«»"]/g, '')
+        .replace(/[.,!?;:«»"-]/g, '')
         .replace(/\s+/g, ' ')
         .trim();
     };
-    return norm(user) === norm(correct);
+    var answers = Array.isArray(correct) ? correct : [correct];
+    return answers.some(function(a) { return norm(user) === norm(a); });
   }
 
   function _shuffle(arr) {
