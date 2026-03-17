@@ -239,6 +239,24 @@ var App = (function() {
       btnBack.classList.add('visible');
       title.textContent = sz ? sz.icon + ' ' + sz.titel : '—';
       Szenarien.renderSzenario(main, itemId);
+
+    } else if (view === 'phrasen') {
+      _backView = 'path';
+      btnBack.classList.add('visible');
+      title.textContent = 'Überlebens-Phrasen';
+      Phrasen.renderList(main);
+
+    } else if (view === 'phrasen-kat' && itemId) {
+      _backView = 'phrasen';
+      btnBack.classList.add('visible');
+      title.textContent = 'Überlebens-Phrasen';
+      Phrasen.renderKategorie(main, itemId);
+
+    } else if (view === 'zahlen') {
+      _backView = 'path';
+      btnBack.classList.add('visible');
+      title.textContent = 'Zahlen-Trainer';
+      Zahlen.renderMenu(main);
     }
   }
 

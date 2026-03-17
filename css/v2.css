@@ -947,3 +947,75 @@
   border-radius: 14px;
   margin-top: 4px;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   ÜBERLEBENS-PHRASEN
+   ══════════════════════════════════════════════════════════════════════ */
+
+.phrasen-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.phrase-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.phrase-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.phrase-fr {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1d3557;
+}
+
+.phrase-de {
+  font-size: 14px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.phrase-kontext {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.phrase-kontext-quiz {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ZAHLEN-TRAINER
+   ══════════════════════════════════════════════════════════════════════ */
+
+.zahlen-info {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.zahlen-info p { margin: 0 0 8px; }
+.zahlen-info ul { margin: 4px 0 8px 20px; padding: 0; }
+.zahlen-info li { margin: 4px 0; }
+
+.zahlen-fr-antwort {
+  font-size: 14px;
+  color: #1d3557;
+  font-style: italic;
+}

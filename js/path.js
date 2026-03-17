@@ -129,6 +129,26 @@ var Path = (function() {
       html += '</div>';
     }
 
+    // ── Phrasen-Banner ──
+    html += '<div class="szenarien-banner" onclick="App.showView(\'phrasen\')">';
+    html += '<span class="sz-banner-icon">🗣️</span>';
+    html += '<div class="sz-banner-text">';
+    html += '<strong>Überlebens-Phrasen</strong><br>';
+    html += '<span>Alltagsphrasen für jede Situation — hören, lesen, üben</span>';
+    html += '</div>';
+    html += '<span class="sz-banner-arrow">→</span>';
+    html += '</div>';
+
+    // ── Zahlen-Banner ──
+    html += '<div class="szenarien-banner" onclick="App.showView(\'zahlen\')">';
+    html += '<span class="sz-banner-icon">🔢</span>';
+    html += '<div class="sz-banner-text">';
+    html += '<strong>Zahlen-Trainer</strong><br>';
+    html += '<span>Zahlen und Preise hören — quatre-vingt-dix-sept = ?</span>';
+    html += '</div>';
+    html += '<span class="sz-banner-arrow">→</span>';
+    html += '</div>';
+
     html += '</div>'; // path-container
     container.innerHTML = html;
   }
