@@ -132,7 +132,7 @@ var Szenarien = (function() {
     }
 
     // Start-Buttons
-    var dueCount = App.getSzenarioDueCount(id);
+    var dueCount = App.getSzenarioDueCount(_id);
     if (dueCount > 0) {
       html += '<div class="sz-start-buttons">';
       html += '<button class="btn btn-primary sz-start-btn" onclick="Szenarien.startWiederholen()">🔄 ' + dueCount + ' fällige wiederholen</button>';
@@ -143,7 +143,7 @@ var Szenarien = (function() {
     }
 
     // Übungszähler
-    var practiceCount = App.getSzPracticeCount(id);
+    var practiceCount = App.getSzPracticeCount(_id);
     if (practiceCount > 0) {
       html += '<div class="sz-practice-count">📝 ' + practiceCount + ' Übungen beantwortet</div>';
     }
