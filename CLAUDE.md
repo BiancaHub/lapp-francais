@@ -28,6 +28,21 @@ Lokale Web-App für Biancas Französisch-Lernroutine. Pures HTML/CSS/JS, kein Fr
 - sync_state.json — Server-seitiger State (automatisch erstellt)
 - icons/lappfrancais.ico
 
+## Stand V2.0 — Session 10 (17.03.2026)
+- **Szenarien massiv ausgebaut**: 59 → 206 Übungen, 46 Hören-Übungen
+  - 6 bestehende Szenarien auf ~23 Übungen erweitert
+  - 3 neue Szenarien: 🏖️ Strand/Camping, 🚗 Mietwagen, 📞 Telefonieren
+- **Bugfix szenarien.js**: Akzent-Toleranz + Weiter-Button bei falscher Antwort
+- Deployed auf lappfrancais.netlify.app (Session 10)
+
+## Stand V2.0 — Session 8 (17.03.2026)
+- **Hören-Übungen in Szenarien**: typ 'hoeren' in szenarien.js — TTS spielt vor, tippen was gehört
+  - 11 Hören-Übungen auf alle 6 Szenarien verteilt (Bahnhof-Durchsagen, Hotel, Markt etc.)
+- **50-Fragen-Engine mit 10er-Häppchen**: exercise.js Pool/Shown-Tracking
+  - Nach 10 Übungen → "Weiterüben"-Button, nie dieselben nochmal
+  - 3 Units erweitert: Artikel (50), être (48), Fragesätze (50 Übungen)
+- Deployed auf lappfrancais.netlify.app (Session 8)
+
 ## Stand V2.0 — Session 6 (16.03.2026)
 - **Szenarien-System** gebaut: js/data-szenarien.js + js/szenarien.js
   - 6 Alltagsszenarien: Restaurant 🍽️, Bahnhof 🚉, Hotel 🏨, Wegbeschreibung 🗺️, Markt 🛒, Arzt 🏥

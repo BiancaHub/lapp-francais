@@ -133,6 +133,67 @@ var App = (function() {
     saveState();
   }
 
+  // ─── SZENARIEN SPACED REPETITION ──────────────────────────────────────────
+
+  function getSzSR(szenarioId, key) {
+    var s = state.szenarien[szenarioId];
+    if (!s || !s.sr) return null;
+    return s.sr[key] || null;
+  }
+
+  // SM-2 für Szenarien-Übungen (gleiche Logik wie Units)
+  function updateSzSR(szenarioId, key, quality) {
+    if (!state.szenarien[szenarioId]) state.szenarien[szenarioId] = {};
+    if (!state.szenarien[szenarioId].sr) state.szenarien[szenarioId].sr = {};
+
+    var sr = state.szenarien[szenarioId].sr[key] ||
+             { ease: 2.5, interval: 0, repetitions: 0, nextReview: 0 };
+
+    if (quality < 3) {
+      sr.repetitions = 0;
+      sr.interval    = 1;
+    } else {
+      sr.repetitions++;
+      if      (sr.repetitions === 1) sr.interval = 1;
+      else if (sr.repetitions === 2) sr.interval = 6;
+      else                           sr.interval = Math.round(sr.interval * sr.ease);
+    }
+
+    sr.ease = sr.ease + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+    if (sr.ease < 1.3) sr.ease = 1.3;
+
+    var reviewDate = new Date();
+    reviewDate.setDate(reviewDate.getDate() + sr.interval);
+    sr.nextReview = reviewDate.getTime();
+
+    state.szenarien[szenarioId].sr[key] = sr;
+    saveState();
+  }
+
+  // Zählt fällige SR-Wiederholungen für ein Szenario
+  function getSzenarioDueCount(szenarioId) {
+    var s = state.szenarien[szenarioId];
+    if (!s || !s.sr) return 0;
+    var now   = Date.now();
+    var count = 0;
+    var keys  = Object.keys(s.sr);
+    for (var i = 0; i < keys.length; i++) {
+      var sr = s.sr[keys[i]];
+      if (sr && sr.nextReview && sr.nextReview <= now) count++;
+    }
+    return count;
+  }
+
+  function incrementSzPracticeCount(szenarioId) {
+    if (!state.szenarien[szenarioId]) state.szenarien[szenarioId] = {};
+    state.szenarien[szenarioId].practiceCount = (state.szenarien[szenarioId].practiceCount || 0) + 1;
+    saveState();
+  }
+
+  function getSzPracticeCount(szenarioId) {
+    return (state.szenarien[szenarioId] && state.szenarien[szenarioId].practiceCount) || 0;
+  }
+
   // ─── ROUTING ──────────────────────────────────────────────────────────────
 
   var currentView   = 'path';
@@ -212,6 +273,11 @@ var App = (function() {
     getUnitDueCount      : getUnitDueCount,
     incrementPracticeCount : incrementPracticeCount,
     getPracticeCount     : getPracticeCount,
+    getSzSR              : getSzSR,
+    updateSzSR           : updateSzSR,
+    getSzenarioDueCount  : getSzenarioDueCount,
+    incrementSzPracticeCount : incrementSzPracticeCount,
+    getSzPracticeCount   : getSzPracticeCount,
     saveState            : saveState
   };
 

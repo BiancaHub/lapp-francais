@@ -22,8 +22,10 @@ var Szenarien = (function() {
   function renderList(container) {
     var all  = SzenarienData.getAll();
     var done = 0;
+    var totalDue = 0;
     all.forEach(function(s) {
       if (App.getSzenarioStatus(s.id) === 'done') done++;
+      totalDue += App.getSzenarioDueCount(s.id);
     });
 
     var html = '<div class="path-container">';
@@ -32,6 +34,7 @@ var Szenarien = (function() {
     html += '<div class="path-stats">';
     html += _stat(done,            '✓ erledigt');
     html += _stat(all.length - done, '○ offen');
+    if (totalDue > 0) html += _stat(totalDue, '🔄 fällig');
     html += '</div>';
 
     html += '<div class="path-banner">🌍 Alltagssituationen in Frankreich — lies den Dialog, mach die Übungen</div>';
@@ -39,9 +42,10 @@ var Szenarien = (function() {
     // Karten-Grid
     html += '<div class="szenarien-grid">';
     all.forEach(function(sz) {
-      var status  = App.getSzenarioStatus(sz.id);
-      var isDone  = status === 'done';
-      var cls     = 'szenario-card' + (isDone ? ' szenario-done' : '');
+      var status   = App.getSzenarioStatus(sz.id);
+      var isDone   = status === 'done';
+      var dueCount = App.getSzenarioDueCount(sz.id);
+      var cls      = 'szenario-card' + (isDone ? ' szenario-done' : '');
 
       html += '<div class="' + cls + '" onclick="App.showView(\'szenario\', \'' + sz.id + '\')">';
       html += '<div class="sz-icon">' + sz.icon + '</div>';
@@ -49,6 +53,9 @@ var Szenarien = (function() {
       html += '<div class="sz-titel">' + sz.titel + '</div>';
       html += '<div class="sz-level">Level ' + sz.level + '</div>';
       html += '<div class="sz-beschreibung">' + sz.beschreibung + '</div>';
+      if (dueCount > 0) {
+        html += '<div class="sz-due-badge">🔄 ' + dueCount + ' fällig</div>';
+      }
       html += '</div>';
       if (isDone) html += '<span class="sz-check">✓</span>';
       html += '</div>';
@@ -124,8 +131,22 @@ var Szenarien = (function() {
       html += '</div>';
     }
 
-    // Start-Button
-    html += '<button class="btn btn-primary sz-start-btn" onclick="Szenarien.startUebungen()">📝 Verständnisfragen starten</button>';
+    // Start-Buttons
+    var dueCount = App.getSzenarioDueCount(id);
+    if (dueCount > 0) {
+      html += '<div class="sz-start-buttons">';
+      html += '<button class="btn btn-primary sz-start-btn" onclick="Szenarien.startWiederholen()">🔄 ' + dueCount + ' fällige wiederholen</button>';
+      html += '<button class="btn btn-secondary sz-start-btn" onclick="Szenarien.startUebungen()">📝 Alle Übungen</button>';
+      html += '</div>';
+    } else {
+      html += '<button class="btn btn-primary sz-start-btn" onclick="Szenarien.startUebungen()">📝 Verständnisfragen starten</button>';
+    }
+
+    // Übungszähler
+    var practiceCount = App.getSzPracticeCount(id);
+    if (practiceCount > 0) {
+      html += '<div class="sz-practice-count">📝 ' + practiceCount + ' Übungen beantwortet</div>';
+    }
 
     html += '</div>'; // .sz-view
     container.innerHTML = html;
@@ -146,6 +167,52 @@ var Szenarien = (function() {
     _cur     = 0;
     _correct = 0;
     _locked  = false;
+    _isRepeatMode = false;
+
+    // Fällige (SR) zuerst, dann Rest — besserer Lerneffekt
+    var now = Date.now();
+    var due = [];
+    var notDue = [];
+    for (var i = 0; i < _exs.length; i++) {
+      var sr = App.getSzSR(_id, App.exKey(_exs[i]));
+      if (sr && sr.nextReview && sr.nextReview <= now) {
+        due.push(_exs[i]);
+      } else {
+        notDue.push(_exs[i]);
+      }
+    }
+    _shuffle(due);
+    _shuffle(notDue);
+    _exs   = due.concat(notDue);
+    _total = _exs.length;
+    _renderUebung();
+  }
+
+  // Wiederholen: nur fällige Übungen
+  var _isRepeatMode = false;
+  function startWiederholen() {
+    var sz = SzenarienData.get(_id);
+    if (!sz) return;
+
+    var now = Date.now();
+    var due = sz.uebungen.filter(function(ex) {
+      var sr = App.getSzSR(_id, App.exKey(ex));
+      return sr && sr.nextReview && sr.nextReview <= now;
+    });
+
+    if (due.length === 0) {
+      // Keine fälligen → normalen Start
+      startUebungen();
+      return;
+    }
+
+    _shuffle(due);
+    _exs     = due;
+    _cur     = 0;
+    _correct = 0;
+    _total   = _exs.length;
+    _locked  = false;
+    _isRepeatMode = true;
     _renderUebung();
   }
 
@@ -279,7 +346,7 @@ var Szenarien = (function() {
     if (!isCorrect && ex.typ === 'hoeren' && ex.de) {
       wrongMsg += ' <span class="ex-feedback-de">(🇩🇪 ' + ex.de + ')</span>';
     }
-    _handleResult(isCorrect, wrongMsg, ex.erklaerung);
+    _handleResult(isCorrect, wrongMsg, ex.erklaerung, ex);
   }
 
   function antwortRF(userBool) {
@@ -300,13 +367,24 @@ var Szenarien = (function() {
     _handleResult(
       isCorrect,
       isCorrect ? '' : 'Die Aussage ist <strong>' + (ex.antwort ? 'wahr' : 'falsch') + '</strong>',
-      ex.erklaerung
+      ex.erklaerung,
+      ex
     );
   }
 
-  function _handleResult(isCorrect, wrongText, erklaerung) {
+  function _handleResult(isCorrect, wrongText, erklaerung, ex) {
     _locked = true;
     if (isCorrect) _correct++;
+
+    // ── SR aktualisieren ──
+    if (ex && _id) {
+      App.updateSzSR(_id, App.exKey(ex), isCorrect ? 4 : 1);
+    }
+
+    // ── Übungszähler ──
+    if (_id) {
+      App.incrementSzPracticeCount(_id);
+    }
 
     var card = document.querySelector('.ex-card');
     if (card) {
@@ -372,6 +450,9 @@ var Szenarien = (function() {
     html += '<button class="btn btn-primary"   onclick="App.showView(\'szenarien\')">← Alle Szenarien</button>';
     html += '</div>';
 
+    // Hinweis: Spaced Repetition
+    html += '<div class="sz-sr-info">💡 Falsche Antworten kommen automatisch nach 1, 6, 14... Tagen zurück — so bleibt alles im Langzeitgedächtnis!</div>';
+
     // Empfohlene Units (nochmal zeigen)
     if (sz && sz.units && sz.units.length > 0) {
       html += '<div class="sz-units-hint sz-units-hint-score">';
@@ -425,12 +506,20 @@ var Szenarien = (function() {
     return answers.some(function(a) { return norm(user) === norm(a); });
   }
 
+  function _shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+  }
+
   // ─── PUBLIC ────────────────────────────────────────────────────────────────
 
   return {
     renderList       : renderList,
     renderSzenario   : renderSzenario,
     startUebungen    : startUebungen,
+    startWiederholen : startWiederholen,
     weiterNachFehler : weiterNachFehler,
     pruefen          : pruefen,
     antwortRF        : antwortRF,
