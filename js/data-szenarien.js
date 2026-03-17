@@ -63,7 +63,15 @@ var SZENARIEN = [
       { typ: 'tippen',
         de: 'Ich hätte gern das Menü des Tages.',
         fr: 'Je voudrais le menu du jour.',
-        erklaerung: 'je voudrais = ich hätte gern (höflicher Konditionnel von vouloir)' }
+        erklaerung: 'je voudrais = ich hätte gern (höflicher Konditionnel von vouloir)' },
+      { typ: 'hoeren',
+        fr: "Bonsoir, vous avez une réservation ?",
+        de: 'Guten Abend, haben Sie eine Reservierung?',
+        erklaerung: 'Eine typische Begrüßung im Restaurant — réservation = Reservierung' },
+      { typ: 'hoeren',
+        fr: "Je prends le steak-frites, s'il vous plaît.",
+        de: 'Ich nehme das Steak mit Pommes, bitte.',
+        erklaerung: 'je prends = ich nehme (prendre); steak-frites = Steak mit Pommes' }
     ]
   },
 
@@ -121,7 +129,22 @@ var SZENARIEN = [
       { typ: 'luecke',
         satz: 'Ce train est ___. Il faut prendre le suivant.',
         loesung: 'complet',
-        erklaerung: '"complet" = ausgebucht/voll. Le suivant = der nächste.' }
+        erklaerung: '"complet" = ausgebucht/voll. Le suivant = der nächste.' },
+      { typ: 'hoeren',
+        fr: "Le train à destination de Lyon partira du quai numéro sept.",
+        de: 'Der Zug nach Lyon fährt von Gleis 7 ab.',
+        hinweis: 'Bahnhofsdurchsage — tippe was du hörst:',
+        erklaerung: 'à destination de = nach/Richtung; partira = wird abfahren (futur); quai = Gleis' },
+      { typ: 'hoeren',
+        fr: "Attention au départ ! Veuillez vous éloigner des portes.",
+        de: 'Achtung Abfahrt! Bitte von den Türen zurücktreten.',
+        hinweis: 'Bahnhofsdurchsage — tippe was du hörst:',
+        erklaerung: 'attention au départ = Achtung Abfahrt; veuillez = bitte (höflich); éloigner = entfernen' },
+      { typ: 'hoeren',
+        fr: "Le train en provenance de Paris arrive avec un retard de dix minutes.",
+        de: 'Der Zug aus Paris hat 10 Minuten Verspätung.',
+        hinweis: 'Bahnhofsdurchsage — tippe was du hörst:',
+        erklaerung: 'en provenance de = aus/kommend von; retard = Verspätung; dix minutes = 10 Minuten' }
     ]
   },
 
@@ -179,7 +202,15 @@ var SZENARIEN = [
       { typ: 'luecke',
         satz: 'Voici ___ clé, madame. Chambre deux cent douze.',
         loesung: 'votre',
-        erklaerung: 'votre = Ihr (vous-Form); clé (f.) → votre clé' }
+        erklaerung: 'votre = Ihr (vous-Form); clé (f.) → votre clé' },
+      { typ: 'hoeren',
+        fr: "Le petit déjeuner est servi de sept heures à dix heures.",
+        de: 'Das Frühstück wird von 7 bis 10 Uhr serviert.',
+        erklaerung: 'petit déjeuner = Frühstück; de … à … = von … bis …; servi = serviert' },
+      { typ: 'hoeren',
+        fr: "Votre chambre donne sur le jardin, c'est très calme.",
+        de: 'Ihr Zimmer geht zum Garten raus, es ist sehr ruhig.',
+        erklaerung: 'donner sur = hinausgehen auf; jardin = Garten; calme = ruhig' }
     ]
   },
 
@@ -237,7 +268,11 @@ var SZENARIEN = [
       { typ: 'tippen',
         de: 'Die Kathedrale ist direkt gegenüber — Sie können sie nicht verfehlen.',
         fr: "La cathédrale est juste en face, vous ne pouvez pas la rater.",
-        erklaerung: 'en face = gegenüber; ne … pas = Verneinung; rater = verpassen/verfehlen' }
+        erklaerung: 'en face = gegenüber; ne … pas = Verneinung; rater = verpassen/verfehlen' },
+      { typ: 'hoeren',
+        fr: "Prenez la deuxième rue à gauche, puis continuez tout droit.",
+        de: 'Nehmen Sie die zweite Straße links, dann gehen Sie geradeaus weiter.',
+        erklaerung: 'prenez = nehmen Sie (Imperativ); deuxième = zweite; à gauche = links; tout droit = geradeaus' }
     ]
   },
 
@@ -295,7 +330,15 @@ var SZENARIEN = [
       { typ: 'tippen',
         de: 'Das macht 8,50 Euro.',
         fr: "Ça fait huit euros cinquante.",
-        erklaerung: 'ça fait = das macht/kostet; Preis auf Französisch angeben' }
+        erklaerung: 'ça fait = das macht/kostet; Preis auf Französisch angeben' },
+      { typ: 'hoeren',
+        fr: "Combien en voulez-vous ? Un kilo ou un demi-kilo ?",
+        de: 'Wie viel möchten Sie? Ein Kilo oder ein halbes Kilo?',
+        erklaerung: 'combien = wie viel; en = davon; un demi-kilo = ein halbes Kilo' },
+      { typ: 'hoeren',
+        fr: "Ça fait huit euros cinquante en tout.",
+        de: 'Das macht 8,50 Euro insgesamt.',
+        erklaerung: 'ça fait = das macht; en tout = insgesamt — Preise verstehen ist am Markt essenziell!' }
     ]
   },
 
@@ -354,7 +397,11 @@ var SZENARIEN = [
       { typ: 'tippen',
         de: 'Haben Sie etwas gegen Kopfschmerzen?',
         fr: "Est-ce que vous avez quelque chose contre le mal de tête ?",
-        erklaerung: 'quelque chose = etwas; contre = gegen; mal de tête = Kopfschmerzen' }
+        erklaerung: 'quelque chose = etwas; contre = gegen; mal de tête = Kopfschmerzen' },
+      { typ: 'hoeren',
+        fr: "Deux comprimés toutes les six heures, avec de la nourriture.",
+        de: 'Zwei Tabletten alle sechs Stunden, mit Essen.',
+        erklaerung: 'comprimés = Tabletten; toutes les six heures = alle 6 Stunden; nourriture = Essen/Nahrung' }
     ]
   }
 

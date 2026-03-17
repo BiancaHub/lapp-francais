@@ -21,37 +21,57 @@ var Exercise = (function() {
   var total     = 0;
   var locked    = false;
   var _frText   = '';   // aktueller FR-Text für TTS nach Antwort / Hören-Button
+  var _pool     = [];   // Gesamtpool aller Übungen der Unit
+  var _shown    = [];   // Indizes der bereits gezeigten Übungen
 
   // ─── PUBLIC: start ────────────────────────────────────────────────────────
 
-  // Normaler Start: fällige Übungen zuerst, max 12
+  var BATCH_SIZE = 10;
+
+  // Normaler Start: 10er-Häppchen, fällige zuerst
   function start(id) {
     var unit = Grammar.getUnit(id);
     if (!unit) return;
 
     unitId  = id;
+    _pool   = unit.uebungen.slice();
+    _shown  = [];
+    _startBatch();
+  }
+
+  // Weiterüben: nächste 10 aus dem Restpool
+  function _startBatch() {
     current = 0;
     correct = 0;
     locked  = false;
 
-    var pool = unit.uebungen.slice();
-    var now  = Date.now();
+    var now = Date.now();
 
-    // Fällige Übungen (SR) zuerst, dann Rest — beide Gruppen gemischt
-    var due    = [];
-    var notDue = [];
-    pool.forEach(function(ex) {
+    // Noch nicht gezeigte Übungen ermitteln
+    var remaining = [];
+    for (var i = 0; i < _pool.length; i++) {
+      if (_shown.indexOf(i) === -1) remaining.push(i);
+    }
+
+    // Fällige (SR) zuerst, dann Rest
+    var dueIdx    = [];
+    var notDueIdx = [];
+    remaining.forEach(function(idx) {
+      var ex = _pool[idx];
       var sr = App.getExSR(unitId, App.exKey(ex));
       if (sr && sr.nextReview && sr.nextReview <= now) {
-        due.push(ex);
+        dueIdx.push(idx);
       } else {
-        notDue.push(ex);
+        notDueIdx.push(idx);
       }
     });
-    _shuffle(due);
-    _shuffle(notDue);
+    _shuffle(dueIdx);
+    _shuffle(notDueIdx);
 
-    exercises = due.concat(notDue).slice(0, 12);
+    var batchIdx = dueIdx.concat(notDueIdx).slice(0, BATCH_SIZE);
+    batchIdx.forEach(function(idx) { _shown.push(idx); });
+
+    exercises = batchIdx.map(function(idx) { return _pool[idx]; });
     total     = exercises.length;
     _render();
   }
@@ -341,8 +361,16 @@ var Exercise = (function() {
       html += '<div class="score-badge score-badge-active">Noch etwas üben — du schaffst das!</div>';
     }
 
+    // Wie viele Fragen sind noch im Pool?
+    var remainingCount = _pool.length - _shown.length;
+
     html += '<div class="score-buttons">';
-    html += '<button class="btn btn-secondary" onclick="Exercise.start(\'' + unitId + '\')">🔄 Nochmal üben</button>';
+    if (remainingCount > 0) {
+      html += '<button class="btn btn-primary ex-btn-weiter" onclick="Exercise.weiterueben()">💪 Weiterüben (' + remainingCount + ' Fragen übrig)</button>';
+    } else {
+      html += '<div class="score-badge score-badge-done" style="margin-bottom:12px">🌟 Alle ' + _pool.length + ' Fragen geschafft!</div>';
+    }
+    html += '<button class="btn btn-secondary" onclick="Exercise.start(\'' + unitId + '\')">🔄 Von vorn</button>';
     html += '<button class="btn btn-primary"   onclick="App.goBack()">← Zurück zum Pfad</button>';
     html += '</div>';
 
@@ -378,12 +406,13 @@ var Exercise = (function() {
   // ─── PUBLIC API ───────────────────────────────────────────────────────────
 
   return {
-    start      : start,
-    startRepeat: startRepeat,
-    pruefen    : pruefen,
-    antwortRF  : antwortRF,
-    startMic   : startMic,
-    playTTS    : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
+    start       : start,
+    startRepeat : startRepeat,
+    weiterueben : function() { _startBatch(); },
+    pruefen     : pruefen,
+    antwortRF   : antwortRF,
+    startMic    : startMic,
+    playTTS     : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
   };
 
 })();

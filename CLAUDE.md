@@ -28,6 +28,18 @@ Lokale Web-App für Biancas Französisch-Lernroutine. Pures HTML/CSS/JS, kein Fr
 - sync_state.json — Server-seitiger State (automatisch erstellt)
 - icons/lappfrancais.ico
 
+## Stand V2.0 — Session 6 (16.03.2026)
+- **Szenarien-System** gebaut: js/data-szenarien.js + js/szenarien.js
+  - 6 Alltagsszenarien: Restaurant 🍽️, Bahnhof 🚉, Hotel 🏨, Wegbeschreibung 🗺️, Markt 🛒, Arzt 🏥
+  - Aufbau: Dialog lesen (mit TTS) → Verständnisfragen → Score → Grammar-Unit-Links
+  - Routing: path → szenarien → szenario (eigene Back-Navigation)
+- **6 fehlende Priority-Units** ergänzt in data-grammar.js:
+  - A2: er-verben, passe-compose, possessiv, irreg-verben
+  - B1: imparfait, conditionnel (B2)
+  - Jetzt: 18 Units total (7 A1 + 8 A2 + 2 B1 + 1 B2)
+- **V1-Dateien gelöscht**: fortschritt.js, grammatik.js, konversation.js, lektionen.js, vokabel_uebungen.js, vokabeln.js
+- Deployed auf lappfrancais.netlify.app (Session 6)
+
 ## Stand V2.0 — Session 5 (16.03.2026)
 - Komplett neu gebaut (Option C aus lapp_v2_plan.md)
 - index.html lädt nur V2-Scripts: data-grammar.js, app.js, diagnostic.js, path.js, unit.js, exercise.js

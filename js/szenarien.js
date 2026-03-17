@@ -176,6 +176,8 @@ var Szenarien = (function() {
       html += _renderLuecke(ex);
     } else if (ex.typ === 'tippen') {
       html += _renderTippen(ex);
+    } else if (ex.typ === 'hoeren') {
+      html += _renderHoeren(ex);
     }
     html += '</div>';
 
@@ -187,6 +189,11 @@ var Szenarien = (function() {
 
     html += '</div>'; // .exercise-view
     container.innerHTML = html;
+
+    // Hören: TTS auto-abspielen
+    if (ex.typ === 'hoeren' && TTS.supported() && ex.fr) {
+      setTimeout(function() { TTS.speak(ex.fr); }, 500);
+    }
 
     // Enter-Taste
     var inp = document.getElementById('exInput');
@@ -230,6 +237,19 @@ var Szenarien = (function() {
     );
   }
 
+  function _renderHoeren(ex) {
+    _frText = ex.fr;
+    return (
+      '<div class="ex-direction">🔊 Hören + Tippen</div>' +
+      '<div class="ex-hoer-play">' +
+      '<button class="audio-btn-large" onclick="Szenarien.playHoeren()" title="Nochmal abspielen">🔊</button>' +
+      '<div class="ex-hoer-hint">' + (ex.hinweis || 'Tippe was du gehört hast:') + '</div>' +
+      '</div>' +
+      _inputMic() +
+      '<button class="btn btn-primary ex-btn-check" onclick="Szenarien.pruefen()">Prüfen ✓</button>'
+    );
+  }
+
   function _inputMic() {
     var micHtml = SpeechInput.supported()
       ? '<button class="speech-mic-btn" id="micBtn" onclick="Szenarien.startMic()" title="Sprechen">🎙️</button>'
@@ -255,6 +275,10 @@ var Szenarien = (function() {
     var correctAnswer = (ex.typ === 'luecke') ? (ex.loesung || ex.antwort) : ex.fr;
     var isCorrect     = _compare(inp.value, correctAnswer);
     var wrongMsg      = isCorrect ? '' : 'Richtig wäre: <strong>' + correctAnswer + '</strong>';
+    // Bei Hören-Übungen: deutsche Übersetzung zeigen
+    if (!isCorrect && ex.typ === 'hoeren' && ex.de) {
+      wrongMsg += ' <span class="ex-feedback-de">(🇩🇪 ' + ex.de + ')</span>';
+    }
     _handleResult(isCorrect, wrongMsg, ex.erklaerung);
   }
 
@@ -387,7 +411,8 @@ var Szenarien = (function() {
     pruefen       : pruefen,
     antwortRF     : antwortRF,
     startMic      : startMic,
-    playLine      : playLine
+    playLine      : playLine,
+    playHoeren    : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
   };
 
 })();
