@@ -314,16 +314,30 @@ var Szenarien = (function() {
         ? '<div class="ex-feedback ex-feedback-correct">✅ Richtig!</div>'
         : '<div class="ex-feedback ex-feedback-wrong">❌ ' + wrongText + '</div>';
       if (erklaerung) fb += '<div class="ex-erklaerung">💡 ' + erklaerung + '</div>';
+      // Bei falscher Antwort: Weiter-Button statt Auto-Weiter
+      if (!isCorrect) {
+        fb += '<button class="btn btn-primary ex-btn-weiter-wrong" onclick="Szenarien.weiterNachFehler()">Weiter →</button>';
+      }
       card.insertAdjacentHTML('beforeend', fb);
     }
 
     if (_frText && TTS.supported()) TTS.speak(_frText);
 
-    setTimeout(function() {
-      _cur++;
-      _locked = false;
-      _renderUebung();
-    }, isCorrect ? 1200 : 2500);
+    // Bei richtig: Auto-Weiter nach 1,2s — bei falsch: warten auf Button-Klick
+    if (isCorrect) {
+      setTimeout(function() {
+        _cur++;
+        _locked = false;
+        _renderUebung();
+      }, 1200);
+    }
+    // bei falsch: _locked bleibt true bis weiterNachFehler()
+  }
+
+  function weiterNachFehler() {
+    _cur++;
+    _locked = false;
+    _renderUebung();
   }
 
   // ─── SCORE ─────────────────────────────────────────────────────────────────
@@ -394,25 +408,35 @@ var Szenarien = (function() {
   function _compare(user, correct) {
     var norm = function(s) {
       return s
-        .replace(/[\u2018\u2019\u201A\u201B\uFF07]/g, "'")
-        .toLowerCase().trim()
-        .replace(/[.,!?;:«»"]/g, '')
-        .replace(/\s+/g, ' ').trim();
+        .replace(/[\u2018\u2019\u201A\u201B\uFF07']/g, '')  // Apostrophe ignorieren
+        .toLowerCase()
+        .trim()
+        .replace(/[.,!?;:«»"…\-–—()[\]{}]/g, '')            // Satzzeichen ignorieren
+        .replace(/\s+/g, ' ')
+        .trim()
+        // Akzente / diakritische Zeichen entfernen
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        // ç → c, œ → oe, æ → ae
+        .replace(/\u00e7/g, 'c')
+        .replace(/\u0153/g, 'oe')
+        .replace(/\u00e6/g, 'ae');
     };
-    return norm(user) === norm(correct);
+    var answers = Array.isArray(correct) ? correct : [correct];
+    return answers.some(function(a) { return norm(user) === norm(a); });
   }
 
   // ─── PUBLIC ────────────────────────────────────────────────────────────────
 
   return {
-    renderList    : renderList,
-    renderSzenario: renderSzenario,
-    startUebungen : startUebungen,
-    pruefen       : pruefen,
-    antwortRF     : antwortRF,
-    startMic      : startMic,
-    playLine      : playLine,
-    playHoeren    : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
+    renderList       : renderList,
+    renderSzenario   : renderSzenario,
+    startUebungen    : startUebungen,
+    weiterNachFehler : weiterNachFehler,
+    pruefen          : pruefen,
+    antwortRF        : antwortRF,
+    startMic         : startMic,
+    playLine         : playLine,
+    playHoeren       : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
   };
 
 })();
