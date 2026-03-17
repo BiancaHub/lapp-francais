@@ -107,6 +107,19 @@ var App = (function() {
     return count;
   }
 
+  // ─── ÜBUNGSZÄHLER ────────────────────────────────────────────────────
+
+  // Zählt wie oft eine Unit geübt wurde (pro beantwortete Frage +1)
+  function incrementPracticeCount(unitId) {
+    if (!state.units[unitId]) state.units[unitId] = {};
+    state.units[unitId].practiceCount = (state.units[unitId].practiceCount || 0) + 1;
+    saveState();
+  }
+
+  function getPracticeCount(unitId) {
+    return (state.units[unitId] && state.units[unitId].practiceCount) || 0;
+  }
+
   // ─── SZENARIEN STATE ──────────────────────────────────────────────────────
 
   function getSzenarioStatus(id) {
@@ -186,18 +199,20 @@ var App = (function() {
   // ─── PUBLIC API ───────────────────────────────────────────────────────────
 
   return {
-    getUnitStatus      : getUnitStatus,
-    setUnitStatus      : setUnitStatus,
-    getSzenarioStatus  : getSzenarioStatus,
-    setSzenarioStatus  : setSzenarioStatus,
-    showView           : showView,
-    goBack             : goBack,
-    getState           : function() { return state; },
-    exKey              : exKey,
-    getExSR            : getExSR,
-    updateExSR         : updateExSR,
-    getUnitDueCount    : getUnitDueCount,
-    saveState          : saveState
+    getUnitStatus        : getUnitStatus,
+    setUnitStatus        : setUnitStatus,
+    getSzenarioStatus    : getSzenarioStatus,
+    setSzenarioStatus    : setSzenarioStatus,
+    showView             : showView,
+    goBack               : goBack,
+    getState             : function() { return state; },
+    exKey                : exKey,
+    getExSR              : getExSR,
+    updateExSR           : updateExSR,
+    getUnitDueCount      : getUnitDueCount,
+    incrementPracticeCount : incrementPracticeCount,
+    getPracticeCount     : getPracticeCount,
+    saveState            : saveState
   };
 
 })();

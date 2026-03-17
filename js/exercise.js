@@ -309,6 +309,11 @@ var Exercise = (function() {
       App.updateExSR(unitId, App.exKey(ex), isCorrect ? 4 : 1);
     }
 
+    // ── Übungszähler hochzählen ──
+    if (unitId) {
+      App.incrementPracticeCount(unitId);
+    }
+
     var card = document.querySelector('.ex-card');
     if (card) {
       var fb = isCorrect
@@ -316,6 +321,10 @@ var Exercise = (function() {
         : '<div class="ex-feedback ex-feedback-wrong">❌ ' + wrongText + '</div>';
       if (erklaerung) {
         fb += '<div class="ex-erklaerung">💡 ' + erklaerung + '</div>';
+      }
+      // Bei falscher Antwort: Weiter-Button statt Auto-Weiter
+      if (!isCorrect) {
+        fb += '<button class="btn btn-primary ex-btn-weiter-wrong" onclick="Exercise.weiterNachFehler()">Weiter →</button>';
       }
       card.insertAdjacentHTML('beforeend', fb);
     }
@@ -325,11 +334,21 @@ var Exercise = (function() {
       TTS.speak(_frText);
     }
 
-    setTimeout(function() {
-      current++;
-      locked = false;
-      _render();
-    }, isCorrect ? 1200 : 4500);
+    // Bei richtig: Auto-Weiter nach 1,2s — bei falsch: warten auf Button-Klick
+    if (isCorrect) {
+      setTimeout(function() {
+        current++;
+        locked = false;
+        _render();
+      }, 1200);
+    }
+    // bei falsch: locked bleibt true bis weiterNachFehler() aufgerufen wird
+  }
+
+  function weiterNachFehler() {
+    current++;
+    locked = false;
+    _render();
   }
 
   // ─── SCORE ────────────────────────────────────────────────────────────────
@@ -380,7 +399,7 @@ var Exercise = (function() {
 
   // ─── HELPERS ──────────────────────────────────────────────────────────────
 
-  // Toleranter Vergleich: Groß/Klein, Leerzeichen, Satzzeichen egal
+  // Toleranter Vergleich: Groß/Klein, Leerzeichen, Satzzeichen, Akzente egal
   // correct kann String oder Array von Strings sein
   function _compare(user, correct) {
     var norm = function(s) {
@@ -388,9 +407,15 @@ var Exercise = (function() {
         .replace(/[\u2018\u2019\u201A\u201B\uFF07']/g, '')  // Apostrophe ignorieren
         .toLowerCase()
         .trim()
-        .replace(/[.,!?;:«»"-]/g, '')
+        .replace(/[.,!?;:«»"…\-–—()[\]{}]/g, '')            // Satzzeichen ignorieren
         .replace(/\s+/g, ' ')
-        .trim();
+        .trim()
+        // Akzente / diakritische Zeichen entfernen
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        // ç → c, œ → oe, æ → ae
+        .replace(/\u00e7/g, 'c')
+        .replace(/\u0153/g, 'oe')
+        .replace(/\u00e6/g, 'ae');
     };
     var answers = Array.isArray(correct) ? correct : [correct];
     return answers.some(function(a) { return norm(user) === norm(a); });
@@ -406,13 +431,14 @@ var Exercise = (function() {
   // ─── PUBLIC API ───────────────────────────────────────────────────────────
 
   return {
-    start       : start,
-    startRepeat : startRepeat,
-    weiterueben : function() { _startBatch(); },
-    pruefen     : pruefen,
-    antwortRF   : antwortRF,
-    startMic    : startMic,
-    playTTS     : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
+    start             : start,
+    startRepeat       : startRepeat,
+    weiterueben       : function() { _startBatch(); },
+    weiterNachFehler  : weiterNachFehler,
+    pruefen           : pruefen,
+    antwortRF         : antwortRF,
+    startMic          : startMic,
+    playTTS           : function() { if (_frText && TTS.supported()) TTS.speak(_frText); }
   };
 
 })();

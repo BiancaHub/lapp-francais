@@ -95,6 +95,12 @@ var Path = (function() {
         if (prio) html += '<span class="priority-star">⭐</span>';
         html += '<div class="unit-name">' + unit.titel + '</div>';
 
+        // Übungszähler: wie oft geübt
+        var practiceCount = App.getPracticeCount(unit.id);
+        if (practiceCount > 0) {
+          html += '<div class="unit-practice-count" title="' + practiceCount + ' Fragen beantwortet">📝 ' + practiceCount + '</div>';
+        }
+
         // SR-Badge: fällige Wiederholungen
         if (dueCount > 0) {
           html += '<div class="unit-due-badge" ' +

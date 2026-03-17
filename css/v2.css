@@ -633,6 +633,25 @@
 .unit-due-badge:hover  { background: #ffe0b2; transform: scale(1.05); }
 .unit-due-badge:active { transform: scale(0.97); }
 
+/* Übungszähler auf Unit-Karte */
+.unit-practice-count {
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Weiter-Button bei falscher Antwort */
+.ex-btn-weiter-wrong {
+  margin-top: 14px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 /* Diagnostic-Badge im Test */
 .diag-badge {
   background: #e8f0fb;
