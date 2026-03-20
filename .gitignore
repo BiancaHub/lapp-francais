@@ -6,3 +6,10 @@ __pycache__/
 *BACKUP*
 *.ps1
 build_app.py
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
